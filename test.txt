@@ -1,0 +1,145 @@
+local OrionLib = loadstring(game:HttpGet(('https://pastebin.com/raw/WRUyYTdY')))()
+
+local Window = OrionLib:MakeWindow({Name = "Mon Hub (beta)", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://113908148449757",
+	PremiumOnly = false
+})
+
+Tab:AddToggle({
+    Name = "FullBright(on = off | off = on)",
+    Default = true,
+    Callback = function(Value)
+        if Value then
+            game:GetService("Lighting").Brightness = 2
+            game:GetService("Lighting").ClockTime = 14
+            game:GetService("Lighting").FogEnd = 100000
+            game:GetService("Lighting").GlobalShadows = false
+            game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(128, 128, 128)
+        else
+            game:GetService("Lighting").Brightness = 10
+            game:GetService("Lighting").ClockTime = 12
+            game:GetService("Lighting").FogEnd = 10000
+            game:GetService("Lighting").GlobalShadows = true
+            game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(127, 127, 127)
+        end
+            end
+})
+
+local Section = Tab:AddSection({
+	Name = "FOV"
+})
+
+Tab:AddButton({
+	Name = "120 Fov!",
+	Callback = function()
+      		workspace.CurrentCamera.FieldOfView = 120
+  	end    
+})
+
+Tab:AddButton({
+	Name = "90 Fov!",
+	Callback = function()
+      		workspace.CurrentCamera.FieldOfView = 90
+  	end    
+})
+
+local Section = Tab:AddSection({
+	Name = "Walk Speed"
+})
+
+Tab:AddButton({
+	Name = "75 walkspeed!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 75
+  	end    
+})
+
+Tab:AddButton({
+	Name = "50 walkspeed!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+  	end    
+})
+
+Tab:AddButton({
+	Name = "25 walkspeed!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+  	end    
+})
+
+Tab:AddButton({
+	Name = "normal walkspeed!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+  	end    
+})
+
+local Section = Tab:AddSection({
+	Name = "Jump Power"
+})
+
+Tab:AddButton({
+	Name = "200 jump power!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 200
+  	end    
+})
+
+Tab:AddButton({
+	Name = "150 jump power!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 150
+  	end    
+})
+
+Tab:AddButton({
+	Name = "100 jump power!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 100
+  	end    
+})
+
+Tab:AddButton({
+	Name = "normal jump power!",
+	Callback = function()
+      		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://113908148449757",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Infinite Yield",
+	Callback = function()
+      		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Fly Gui V3",
+	Callback = function()
+      		loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-fly-gui-v3-22133"))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "KeyBoard",
+	Callback = function()
+      		loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "NameLess Admin",
+	Callback = function()
+      		loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"))()
+  	end    
+})

@@ -1,0 +1,227 @@
+-- Instances:
+ 
+local ScreenGui = Instance.new("ScreenGui")
+local main = Instance.new("Frame")
+local title = Instance.new("TextLabel")
+local emotes = Instance.new("TextButton")
+local vynixu = Instance.new("TextButton")
+local ludicity = Instance.new("TextButton")
+local eclipse = Instance.new("TextButton")
+local god = Instance.new("TextButton")
+local troll = Instance.new("TextButton")
+ 
+--Properties:
+ 
+ScreenGui.Parent = game.CoreGui
+ 
+main.Name = "main"
+main.Parent = ScreenGui
+main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+main.BackgroundTransparency = 0.300
+main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+main.Position = UDim2.new(0.0163098853, 0, 0.319767386, 0)
+main.Size = UDim2.new(0, 212, 0, 251)
+main.Active = true
+main.Draggable = true
+ 
+title.Name = "title"
+title.Parent = main
+title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+title.BorderSizePixel = 0
+title.Position = UDim2.new(-1.1920929e-07, 0, 0, 0)
+title.Size = UDim2.new(0, 212, 0, 22)
+title.Font = Enum.Font.Cartoon
+title.Text = "Mon Hub"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextSize = 14.000
+ 
+emotes.Name = "emotes"
+emotes.Parent = main
+emotes.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+emotes.BackgroundTransparency = 0.300
+emotes.BorderColor3 = Color3.fromRGB(255, 255, 255)
+emotes.Position = UDim2.new(0.0566037744, 0, 0.843250215, 0)
+emotes.Size = UDim2.new(0, 187, 0, 22)
+emotes.Font = Enum.Font.Cartoon
+emotes.Text = "enable farm"
+emotes.TextColor3 = Color3.fromRGB(255, 255, 255)
+emotes.TextSize = 14.000
+emotes.TextWrapped = true
+emotes.MouseButton1Down:connect(function()
+local MaxSpeed = 300 -- Studs per second 380 no flag but kick
+
+local CoreGui = game:GetService("StarterGui")
+    CoreGui:SetCore("SendNotification", {
+        Title = "Auto Chest",
+        Text = "Press the subtitles too",
+        Duration = math.huge,
+        Callback = AllowRunServiceBind,
+    })
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Locations = workspace._WorldOrigin.Locations
+
+local function getCharacter()
+    if not LocalPlayer.Character then
+        LocalPlayer.CharacterAdded:Wait()
+    end
+    LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+    return LocalPlayer.Character
+end
+
+local function DistanceFromPlrSort(ObjectList: table)
+    local RootPart = getCharacter().LowerTorso
+    table.sort(ObjectList, function(ChestA, ChestB)
+        local RootPos = RootPart.Position
+        local DistanceA = (RootPos - ChestA.Position).Magnitude
+        local DistanceB = (RootPos - ChestB.Position).Magnitude
+        return DistanceA < DistanceB
+    end)
+end
+
+local UncheckedChests = {}
+local FirstRun = true
+
+local function getChestsSorted()
+    if FirstRun then
+        FirstRun = false
+        local Objects = game:GetDescendants()
+        for i, Object in pairs(Objects) do
+            if Object.Name:find("Chest") and Object.ClassName == "Part" then
+                table.insert(UncheckedChests, Object)
+            end
+        end
+    end
+    local Chests = {}
+    for i, Chest in pairs(UncheckedChests) do
+        if Chest:FindFirstChild("TouchInterest") then
+            table.insert(Chests, Chest)
+        end
+    end
+    DistanceFromPlrSort(Chests)
+    return Chests
+end
+
+local function toggleNoclip(Toggle: boolean)
+    for i,v in pairs(getCharacter():GetChildren()) do
+        if v.ClassName == "Part" then
+            v.CanCollide = not Toggle
+        end
+    end
+end
+
+local function Teleport(Goal: CFrame, Speed)
+    if not Speed then
+        Speed = MaxSpeed
+    end
+    toggleNoclip(true)
+    local RootPart = getCharacter().HumanoidRootPart
+    local Magnitude = (RootPart.Position - Goal.Position).Magnitude
+
+    RootPart.CFrame = RootPart.CFrame
+    
+    while not (Magnitude < 1) do
+        local Direction = (Goal.Position - RootPart.Position).unit
+        RootPart.CFrame = RootPart.CFrame + Direction * (Speed * wait())
+        Magnitude = (RootPart.Position - Goal.Position).Magnitude
+    end
+    toggleNoclip(false)
+end
+
+local function main()
+    while wait() do
+        local Chests = getChestsSorted()
+        if #Chests > 0 then
+            Teleport(Chests[1].CFrame)
+        else
+            -- You can put serverhop here
+        end
+    end
+end
+
+wait = task.wait
+main()
+end)
+ 
+vynixu.Name = "vynixu"
+vynixu.Parent = main
+vynixu.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+vynixu.BackgroundTransparency = 0.300
+vynixu.BorderColor3 = Color3.fromRGB(255, 255, 255)
+vynixu.Position = UDim2.new(0.0566037744, 0, 0.13348788, 0)
+vynixu.Size = UDim2.new(0, 187, 0, 22)
+vynixu.Font = Enum.Font.Cartoon
+vynixu.Text = "Server Hop"
+vynixu.TextColor3 = Color3.fromRGB(255, 255, 255)
+vynixu.TextSize = 14.000
+vynixu.TextWrapped = true
+vynixu.MouseButton1Down:connect(function()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+end)
